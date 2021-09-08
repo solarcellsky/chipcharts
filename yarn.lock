@@ -1631,7 +1631,7 @@
     regenerator-runtime "0.13.5"
     schema-utils "^3.0.0"
 
-"@umijs/preset-react@1.x":
+"@umijs/preset-react@^1.8.23":
   version "1.8.23"
   resolved "https://registry.yarnpkg.com/@umijs/preset-react/-/preset-react-1.8.23.tgz#5fd3fc1dcd03ef2ca2b01402348d80bbcf004990"
   integrity sha512-neSchzZmXQ/gE9ZN6Dz7B8WEM474rsSDEsSufBh51VfvAK81V6xA602EkFF/62ODxtsjBchrGJqgmknUZioLfQ==
