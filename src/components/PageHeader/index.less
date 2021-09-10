@@ -1,0 +1,43 @@
+.pageheader {
+  background-color: #ffffff;
+  padding: 0 20px;
+  line-height: 46px;
+  height: 46px;
+  border-bottom: 1px solid #cccccc;
+
+  .logo {
+    height: 30px;
+    width: auto;
+  }
+
+  .headerUI {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 10px;
+  }
+
+  .avatar {
+    display: flex;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+
+    & .uname {
+      display: inline-block;
+      padding: 0 0 0 10px;
+    }
+  }
+
+  .lang {
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+    text-align: right;
+    :global(.ant-dropdown-trigger) {
+      margin-right: 0;
+    }
+  }
+}
