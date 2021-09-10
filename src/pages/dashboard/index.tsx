@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Layout, Button } from 'antd';
 import {
   CodeOutlined,
@@ -11,9 +10,8 @@ import DemoScatter from './components/charts';
 import DemoRadar from './components/radar';
 import logo from '/public/assets/logo.png';
 import styles from './index.less';
-const mountNode = document.getElementById('root');
 
-class DashBoard extends React.Component {
+export default class DashBoard extends React.Component {
   state = {
     size: 'small',
     collapsed: false,
@@ -79,5 +77,3 @@ class DashBoard extends React.Component {
     );
   }
 }
-
-ReactDOM.render(<DashBoard />, mountNode);
