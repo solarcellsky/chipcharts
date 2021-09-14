@@ -10,6 +10,7 @@ import {
 import PageHeader from '@/components/PageHeader';
 import DemoScatter from './components/charts';
 import DemoRadar from './components/radar';
+import D3Demo from './components/D3Demo';
 import styles from './index.less';
 
 const DashBoard: React.FC = () => {
@@ -49,6 +50,7 @@ const DashBoard: React.FC = () => {
                 SAVE
               </Button>
             </div>
+            <D3Demo />
           </div>
         </div>
         <div

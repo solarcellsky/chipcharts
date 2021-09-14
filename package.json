@@ -25,12 +25,16 @@
     "@ant-design/pro-form": "^1.40.0",
     "@ant-design/pro-layout": "^6.5.0",
     "antd": "^4.16.13",
+    "d3": "^7.0.1",
+    "d3-selection": "^3.0.0",
+    "d3-transition": "^3.0.1",
     "rc-resize-observer": "^1.0.1",
     "react": "17.x",
     "react-dom": "17.x",
     "umi": "^3.5.17"
   },
   "devDependencies": {
+    "@types/d3": "^7.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@umijs/preset-react": "^1.8.23",
