@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="./libs/jquery.min.js"></script>
+    <script src="./libs/highcharts.js"></script>
+</head>
+
+<body>
+
+    <div>
+        <button id="getWaferDataBtn">Get Server Wafer Data</button>
+    </div>
+    <div id="container" style="width:620px; height:500px;"></div>
+    <div style="height: 20px">
+        <hr>
+    </div>
+    <div id="container2" style="width:400px; height:400px;"></div>
+
+    <script type="text/javascript">
+        $("#getWaferDataBtn").click(function () {
+            console.log('getWaferDataBtn2-clicked');
+            $('#container').html('<p style="font-size: 30px">data loading...</p>');
+
+            $.get("./wafer-data.txt", function (dataStr, status) {
+                console.time("scatter");
+
+                var data = JSON.parse(dataStr);
+                data = data.filter(item => item[2]);
+
+                var val1Arr, val2Arr, val3Arr, val4Arr, val5Arr, val6Arr;
+                val1Arr = data.filter(item => item[2] === 1);
+                val2Arr = data.filter(item => item[2] === 2);
+                val3Arr = data.filter(item => item[2] === 3);
+                val4Arr = data.filter(item => item[2] === 4);
+                val5Arr = data.filter(item => item[2] === 5);
+                val6Arr = data.filter(item => item[2] === 6);
+
+                var data1Arr, data2Arr, data3Arr, data4Arr, data5Arr, data6Arr;
+                // // 最简效果
+                // data1Arr = {type: 'scatter', name: 'val1Arr', color: '#03ff00', data: val1Arr, allowPointSelect: true, showInLegend: false, marker: {radius: 0.5}, tooltip: {followPointer: false, pointFormat: '[{point.x:.1f}, {point.y:.1f}]'}};
+                // data2Arr = {type: 'scatter', name: 'val2Arr', color: '#ff0000', data: val2Arr, allowPointSelect: true, showInLegend: false, marker: {radius: 0.5}, tooltip: {followPointer: false, pointFormat: '[{point.x:.1f}, {point.y:.1f}]'}};
+                // data3Arr = {type: 'scatter', name: 'val3Arr', color: '#0207f3', data: val3Arr, allowPointSelect: true, showInLegend: false, marker: {radius: 0.5}, tooltip: {followPointer: false, pointFormat: '[{point.x:.1f}, {point.y:.1f}]'}};
+                // data4Arr = {type: 'scatter', name: 'val4Arr', color: '#afc7db', data: val4Arr, allowPointSelect: true, showInLegend: false, marker: {radius: 0.5}, tooltip: {followPointer: false, pointFormat: '[{point.x:.1f}, {point.y:.1f}]'}};
+                // data5Arr = {type: 'scatter', name: 'val5Arr', color: '#ff00f6', data: val5Arr, allowPointSelect: true, showInLegend: false, marker: {radius: 0.5}, tooltip: {followPointer: false, pointFormat: '[{point.x:.1f}, {point.y:.1f}]'}};
+                // data6Arr = {type: 'scatter', name: 'val6Arr', color: '#fffe00', data: val6Arr, allowPointSelect: true, showInLegend: false, marker: {radius: 0.5}, tooltip: {followPointer: false, pointFormat: '[{point.x:.1f}, {point.y:.1f}]'}};
+
+                // 丰富效果
+                data1Arr = { type: 'scatter', name: 'val1Arr', color: '#03ff00', data: val1Arr };
+                data2Arr = { type: 'scatter', name: 'val2Arr', color: '#ff0000', data: val2Arr };
+                data3Arr = { type: 'scatter', name: 'val3Arr', color: '#0207f3', data: val3Arr };
+                data4Arr = { type: 'scatter', name: 'val4Arr', color: '#afc7db', data: val4Arr };
+                data5Arr = { type: 'scatter', name: 'val5Arr', color: '#ff00f6', data: val5Arr };
+                data6Arr = { type: 'scatter', name: 'val6Arr', color: '#fffe00', data: val6Arr };
+
+                const chart = Highcharts.chart('container', {
+                    chart: {
+                        type: 'scatter',
+                        zoomType: 'xy',
+                        events: {
+                            // load() {
+                            //     this.showLoading('data loading...');
+                            // },
+                            selection: selectPointsByDrag,
+                            // selectedpoints: selectedPoints,
+                            click: chartClicked
+                        },
+                        animation: false,
+                    },
+                    // boost: {
+                    //     useGPUTranslations: true,
+                    //     usePreAllocated: true
+                    // },
+                    title: {
+                        text: 'Wafer Graph',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    },
+                    legend: {
+                        align: 'right',
+                        verticalAlign: 'top',
+                        layout: 'vertical',
+                        x: 50,
+                        y: 100
+                    },
+                    plotOptions: {
+                        series: {
+                            // allowPointSelect: true,
+                            states: {
+                                inactive: {
+                                    opacity: 1 //禁止其他series dim.
+                                },
+                                hover: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                    },
+                    xAxis: {
+                        min: 0,
+                        max: 300,
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 380,
+                    },
+                    series: [data1Arr, data2Arr, data3Arr, data4Arr, data5Arr, data6Arr]
+                });
+
+                chart.hideLoading();
+                console.timeEnd("scatter");
+            });
+        });
+
+
+        $("#container").click(function () {
+            console.info('click from div');
+        });
+
+        /**
+         * Custom selection handler that selects points and cancels the default zoom behaviour
+         */
+        function selectPointsByDrag(e) {
+            // Select points
+            // console.log('select', e);
+            if (!e.xAxis || !e.yAxis) return true;
+            var selectedPointList = [];
+
+            this.series.forEach((series) => {
+                series.points.forEach(point => {
+                    if (point.x >= e.xAxis[0].min && point.x <= e.xAxis[0].max &&
+                        point.y >= e.yAxis[0].min && point.y <= e.yAxis[0].max) {
+                        // point.select(true, true);
+                        selectedPointList.push(point);
+                    }
+                })
+            })
+
+            // console.log('selectedPoints', selectedPoints);
+            generateSecondGraph(selectedPointList);
+
+            // // Fire a custom event
+            // Highcharts.fireEvent(this, 'selectedpoints', { points: this.getSelectedPoints() });
+
+            return true; // Don't zoom
+        }
+
+        function generateSecondGraph(selectedPoints) {
+            var val1Arr = 0, val2Arr = 0, val3Arr = 0, val4Arr = 0, val5Arr = 0, val6Arr = 0;
+            for (const onePoint of selectedPoints) {
+                switch (onePoint.color) {
+                    case '#03ff00':
+                        val1Arr++;
+                        break;
+                    case '#ff0000':
+                        val2Arr++;
+                        break;
+                    case '#0207f3':
+                        val3Arr++;
+                        break;
+                    case '#afc7db':
+                        val4Arr++;
+                        break;
+                    case '#ff00f6':
+                        val5Arr++;
+                        break;
+                    case '#fffe00':
+                        val6Arr++;
+                        break;
+                }
+            }
+
+            console.log('bar-data', [val1Arr, val2Arr, val3Arr, val4Arr, val5Arr, val6Arr]);
+
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '分组统计数量'
+                },
+                xAxis: {
+                    categories: [
+                        'group1',
+                        'group2',
+                        'group3',
+                        'group4',
+                        'group5',
+                        'group6',
+                    ],
+                    // crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '数量'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Group Count',
+                    // allowPointSelect: true,
+                    // showInLegend: false,
+                    data: [val1Arr, val2Arr, val3Arr, val4Arr, val5Arr, val6Arr]
+                }]
+            });
+
+        }
+
+        /**
+         * The handler for a custom event, fired from selection event
+         */
+        function selectedPoints(e) {
+            // Show a label
+            toast(this, '<b>' + e.points.length + ' points selected.</b>' +
+                '<br>Click on empty space to deselect.');
+        }
+
+        /**
+         * On click, unselect all points
+         */
+        function chartClicked(e) {
+            console.log('clicked from chart.', e);
+            // var points = this.getSelectedPoints();
+            // if (points.length > 0) {
+            //     points.forEach(point => {
+            //         point.select(false);
+            //     })
+            // }
+        }
+
+        /**
+         * Display a temporary label on the chart
+         */
+        function toast(chart, text) {
+            chart.toast = chart.renderer.label(text, 100, 120)
+                .attr({
+                    fill: Highcharts.getOptions().colors[0],
+                    padding: 10,
+                    r: 5,
+                    zIndex: 8
+                })
+                .css({
+                    color: '#FFFFFF'
+                })
+                .add();
+
+            setTimeout(function () {
+                chart.toast.fadeOut();
+            }, 2000);
+            setTimeout(function () {
+                chart.toast = chart.toast.destroy();
+            }, 2500);
+        }
+
+    </script>
+</body>
+
+</html>

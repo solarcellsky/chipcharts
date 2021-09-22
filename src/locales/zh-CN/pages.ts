@@ -1,5 +1,5 @@
 export default {
-  'pages.layouts.userLayout.title': '为业务赋能',
+  'pages.layouts.userLayout.title': ' ',
   'pages.login.accountLogin.tab': '账户密码登录',
   'pages.login.accountLogin.errorMessage': '错误的用户名和密码（admin/888888)',
   'pages.login.failure': '登录失败，请重试！',

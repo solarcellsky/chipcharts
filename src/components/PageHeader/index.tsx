@@ -1,19 +1,16 @@
-import { Layout, Avatar, Menu, Dropdown } from 'antd';
-import { useIntl, SelectLang } from 'umi';
+import { Avatar, Menu, Dropdown } from 'antd';
+import { SelectLang, Link } from 'umi';
 import {
   UserOutlined,
   CaretDownOutlined,
   LogoutOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import logo from '/public/assets/logo.png';
-import defaultAvatar from '/public/assets/default.jpg';
+import logo from '/public/assets/logo.svg';
+import defaultAvatar from '/public/assets/avatar.png';
 import styles from './index.less';
 
 export default () => {
-  const { Header } = Layout;
-  const intl = useIntl();
-
   const menu = (
     <Menu>
       <Menu.Item key="0">
@@ -26,9 +23,36 @@ export default () => {
     </Menu>
   );
 
+  const _routerKey = window.location.pathname.split('/')[1];
+
+  const handleClick = (e: { key: string }) => {
+    window.localStorage.setItem('roter-key', e.key);
+  };
+
+  const headerNavi = (
+    <Menu onClick={handleClick} mode="horizontal">
+      <Menu.Item key="product">
+        <Link to="/product">产品信息管理</Link>
+      </Menu.Item>
+      <Menu.Item key="task">
+        <Link to="/task">任务及变更</Link>
+      </Menu.Item>
+      <Menu.Item key="dataset">
+        <Link to="/dataset">数据管理和分析</Link>
+      </Menu.Item>
+      <Menu.Item key="rules">
+        <Link to="/rules">质量规则管理及批次处理</Link>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
-    <Header className={styles.pageheader}>
+    <section className={styles.pageHeader}>
       <img src={logo} className={styles.logo} alt="" />
+      <div className={styles.globalNavi}>
+        <div className={styles.siteName}>OneData</div>
+        {headerNavi}
+      </div>
       <div className={styles.headerUI}>
         <div className={styles.avatar}>
           <Avatar size="small" icon={<UserOutlined />} src={defaultAvatar} />
@@ -47,6 +71,6 @@ export default () => {
           {SelectLang && <SelectLang />}
         </div>
       </div>
-    </Header>
+    </section>
   );
 };

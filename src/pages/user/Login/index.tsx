@@ -17,7 +17,7 @@ import {
 import Footer from '@/components/Footer';
 import { login } from '../../../services/ant-design-pro/api';
 import { getFakeCaptcha } from '../../../services/ant-design-pro/login';
-import logo from '/public/assets/logo.png';
+import logo from '/public/assets/logo.svg';
 
 import styles from './index.less';
 

@@ -1,71 +1,35 @@
 import React from 'react';
-import { Layout, Button } from 'antd';
-import { useIntl } from 'umi';
-import {
-  CodeOutlined,
-  SaveOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from '@ant-design/icons';
-import PageHeader from '@/components/PageHeader';
-import DemoScatter from './components/charts';
-import DemoRadar from './components/radar';
-import D3Demo from './components/D3Demo';
+import { Tabs } from 'antd';
+import DataSet from './subpages/dataset';
+import Charts from './subpages/charts';
+import Board from './subpages/Board';
 import styles from './index.less';
 
 const DashBoard: React.FC = () => {
-  const intl = useIntl();
-  const [collapsed, setCollapsed] = React.useState(false);
-
-  const handleSideCollapse = () => {
-    setCollapsed(!collapsed);
-  };
+  const { TabPane } = Tabs;
 
   return (
-    <Layout>
-      <PageHeader />
-      <Layout className={styles.mainContent}>
-        <div
-          className={
-            collapsed ? styles.cols + ' ' + styles.collapsed : styles.cols
-          }
-        >
-          <div className={styles.innerWrapper}>
-            <h5>{intl.formatMessage({ id: 'pages.dashboard.dataset' })}</h5>
-            <Button
-              size="small"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              className={styles.colBtn}
-              onClick={handleSideCollapse}
-            />
-          </div>
-        </div>
-        <div className={styles.cols}>
-          <div className={styles.innerWrapper}>
-            <div>
-              <Button size="small" icon={<CodeOutlined />}>
-                RUN
-              </Button>
-              <Button size="small" icon={<SaveOutlined />}>
-                SAVE
-              </Button>
-            </div>
-            <D3Demo />
-          </div>
-        </div>
-        <div
-          className={
-            collapsed ? styles.cols + ' ' + styles.collapsed : styles.cols
-          }
-        >
-          <div className={styles.innerWrapper}>
-            <h5>Result</h5>
-            <DemoScatter />
-            <DemoRadar />
-          </div>
-        </div>
-      </Layout>
-    </Layout>
+    <Tabs
+      defaultActiveKey="1"
+      size="small"
+      tabBarStyle={{
+        padding: '0 20px',
+        margin: '0 0 0 0',
+        borderBottom: '1px solid #CCCCCC',
+        backgroundColor: '#f0f2f5',
+        boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <TabPane tab="数据集" key="1">
+        <DataSet />
+      </TabPane>
+      <TabPane tab="分析图表" key="2">
+        <Charts />
+      </TabPane>
+      <TabPane tab="看板管理" key="3">
+        <Board />
+      </TabPane>
+    </Tabs>
   );
 };
 
